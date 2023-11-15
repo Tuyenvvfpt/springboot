@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Get All</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<!--<h1 class="content">Hello cac ban</h1>-->
+<!--<p>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
+<!--<div th:each="s: ${student}">-->
+<!--    <p th:text="${s.id}"></p>-->
+<!--    <p th:text="${s.name}"></p>-->
+<!--    <p th:text="${s.age}"></p>-->
+<!--    <p>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
+<!--</div>-->
+
+<div class="container">
+    <h2>table student list</h2>
+    <div class="row">
+        <div class="col-lg-2">
+            <button onclick="btn_add()">Add</button>
+        </div>
+        <div class="col-lg-10" style="display: flex;justify-content: right">
+            <input class="btn_search" type="text" placeholder="Enter search name: ">
+            <button style="font-size: 12px" onclick="btn_search()">Search</button>
+
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>age</th>
+            <th>action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s: ${student}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.name}"></td>
+            <td th:text="${s.age}"></td>
+            <td>
+                <button class="btn-edit">
+                    Edit
+                </button>
+                <button class="btn-danger">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function btn_add(){
+        window.location.href="add";
+    }
+    function btn_search(){
+        var text = $(".btn_search").val();
+        window.location.href="search?text_search="+text;
+    }
+</script>
+</body>
+</html>
