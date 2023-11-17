@@ -47,7 +47,7 @@
             <td th:text="${s.name}"></td>
             <td th:text="${s.age}"></td>
             <td>
-                <button class="btn-edit">
+                <button class="btn-edit" th:attr="onclick=|btn_edit('${s.id}')|">
                     Edit
                 </button>
                 <button class="btn-danger">
@@ -66,6 +66,10 @@
     function btn_search(){
         var text = $(".btn_search").val();
         window.location.href="search?text_search="+text;
+    }
+    function btn_edit(id){
+        // alert("btn_edit");
+        window.location.href="edit/"+id;
     }
 </script>
 </body>

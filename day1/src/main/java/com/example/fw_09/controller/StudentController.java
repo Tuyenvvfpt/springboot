@@ -2,6 +2,7 @@ package com.example.fw_09.controller;
 
 import com.example.fw_09.dto.StudentDTO;
 import com.example.fw_09.entities.Student;
+import com.example.fw_09.repositories.StudentRepository;
 import com.example.fw_09.services.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class StudentController {
 
     @Autowired
     IStudentService studentService;
+    @Autowired
+    StudentRepository studentRepository;
 
     @GetMapping("/getAll") //html
     public String homeStudent(Model model) {
@@ -45,17 +48,33 @@ public class StudentController {
     }
 
     @GetMapping("/search") //html
-    public String search(Model model, @RequestParam("txt_search") String txt_search) {
-        System.out.println(txt_search);
+    public String search(Model model, @RequestParam("text_search") String text_search) {
+        System.out.println(text_search);
 
         List<Student> studentList = new ArrayList<>();
-        if (txt_search.equals("")) {
+        if (text_search.equals("")) {
             studentList = studentService.getAll();
         } else {
-            studentList = studentService.search(txt_search);
+            studentList = studentService.search(text_search);
         }
 //        studentList.forEach(s -> System.out.println(s.getId()));
         model.addAttribute("student", studentList);
-        return "admin/student"; //day ko phai duong dan == front-end
+         return "admin/student"; //day ko phai duong dan == front-end
+    }
+
+    @GetMapping("/edit/{id}") //html
+    public String edit(Model model, @PathVariable("id") Long id) {
+        System.out.println(id);
+        Student student = studentService.findById(id);
+        model.addAttribute("student", student);
+
+        return "admin/edit"; //day ko phai duong dan == front-end
+    }
+
+    @PostMapping("/edit") //html
+    public String edit(Model model, @ModelAttribute("student") Student student) {
+//        System.out.println(student);
+        studentRepository.save(student);
+        return "redirect:/admin/getAll";
     }
 }

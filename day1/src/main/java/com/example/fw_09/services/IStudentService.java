@@ -9,4 +9,5 @@ public interface IStudentService {
     List<Student> getAll(); //interface ko can annotation
     int save(StudentDTO studentDTO);
     List<Student> search(String txt);
+    Student findById(Long id);
 }

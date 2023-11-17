@@ -34,4 +34,10 @@ public class StudentService implements IStudentService {
     public List<Student> search(String txt) {
         return studentRepository.findByName(txt);
     }
+
+    @Override
+    public Student findById(Long id) {
+
+        return studentRepository.findById(id).get();
+    }
 }
