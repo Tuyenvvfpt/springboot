@@ -5,6 +5,8 @@ import com.example.fw_09.entities.Student;
 import com.example.fw_09.repositories.StudentRepository;
 import com.example.fw_09.services.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,11 @@ public class StudentController {
     @Autowired
     StudentRepository studentRepository;
 
-    @GetMapping("/getAll") //html
+    //    @GetMapping("/getAll") //html
+    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public String homeStudent(Model model) {
-        List<Student> studentList = studentService.getAll();
-        studentList.forEach(s -> System.out.println(s.getId()));
+        List<Student> studentList = studentService.getAll(); //service
+//        studentList.forEach(s -> System.out.println(s.getId()));
         model.addAttribute("student", studentList);
 
         return "admin/student"; //day ko phai duong dan == front-end
@@ -42,7 +45,7 @@ public class StudentController {
     @PostMapping("/add")
     public String add(@ModelAttribute StudentDTO studentDTO) {
         System.out.println(studentDTO);
-        studentService.save(studentDTO);
+        studentService.save(studentDTO); //service
 //        return "admin/student"; //day ko phai duong dan == front-end
         return "redirect:/admin/getAll";
     }
@@ -53,13 +56,13 @@ public class StudentController {
 
         List<Student> studentList = new ArrayList<>();
         if (text_search.equals("")) {
-            studentList = studentService.getAll();
+            studentList = studentService.getAll(); //service
         } else {
-            studentList = studentService.search(text_search);
+            studentList = studentService.search(text_search); //service
         }
 //        studentList.forEach(s -> System.out.println(s.getId()));
         model.addAttribute("student", studentList);
-         return "admin/student"; //day ko phai duong dan == front-end
+        return "admin/student"; //day ko phai duong dan == front-end
     }
 
     @GetMapping("/edit/{id}") //html
@@ -76,5 +79,19 @@ public class StudentController {
 //        System.out.println(student);
         studentRepository.save(student);
         return "redirect:/admin/getAll";
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+//    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+//    public String delete(@PathVariable("id") Long id) {
+
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        int result = studentService.delete(id);
+        if (result == 1) {
+//            return "redirect:/admin/getAll"; //405 not allowed - getmapping
+            return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
+        }
+//        return "";
+        return new ResponseEntity<>("Delete fail", HttpStatus.BAD_REQUEST);
     }
 }

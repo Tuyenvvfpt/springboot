@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class StudentService implements IStudentService {
     @Autowired //2nd
@@ -25,7 +26,7 @@ public class StudentService implements IStudentService {
         try {
             studentRepository.save(studentDTO.toEntity());
             return 1;
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -39,5 +40,15 @@ public class StudentService implements IStudentService {
     public Student findById(Long id) {
 
         return studentRepository.findById(id).get();
+    }
+
+    @Override
+    public int delete(Long id) {
+        try {
+            studentRepository.deleteById(id);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

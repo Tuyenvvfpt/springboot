@@ -50,7 +50,7 @@
                 <button class="btn-edit" th:attr="onclick=|btn_edit('${s.id}')|">
                     Edit
                 </button>
-                <button class="btn-danger">
+                <button class="btn-danger" th:attr="onclick=|btn_delete('${s.id}')|">
                     Delete
                 </button>
             </td>
@@ -70,6 +70,24 @@
     function btn_edit(id){
         // alert("btn_edit");
         window.location.href="edit/"+id;
+    }
+    function btn_delete(id) {
+        // alert("btn_delete");
+        // window.location.href="delete/"+id;
+        $.ajax({
+            url: "delete/"+id,
+            method: 'DELETE',
+            contentType: 'application/json',
+            success: function (result) {
+                // handle success
+                // console.log(result)
+                alert(result);
+                window.location.href="getAll";
+            },
+            error: function (request, msg, error) {
+                // handle failure
+            }
+        })
     }
 </script>
 </body>
